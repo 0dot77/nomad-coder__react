@@ -24,16 +24,50 @@
     }, 'Click me')
     */
     const App = () => {
-      const [counter, setCounter] = React.useState(0);
-      const onClick = () => {
-        setCounter(counter + 1);
+      const [amount, setAmount] = React.useState();
+      const [inverted, setInverted] = React.useState(false);
+      const reset = () => setAmount(0);
+      const onFlip = () => {
+        reset();
+        setInverted((current) => !current);
       };
-      console.log("rendered");
-      console.log(counter);
+      const convert = (event) => setAmount(event.target.value);
+
       return (
         <div>
-          <h3>Total Clicks: {counter}</h3>
-          <button onClick={onClick}>Click Me</button>
+          <h1>Super Converter</h1>
+          <div>
+            <label htmlFor="minutes">Minutes</label>
+            <input
+              value={inverted ? Math.trunc(amount) * 60 : Math.trunc(amount)}
+              id="minutes"
+              placeholder="Minutes"
+              type="number"
+              disabled={inverted}
+              onChange={convert}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="hours">Hours</label>
+            <input
+              value={inverted ? Math.trunc(amount) : Math.trunc(amount / 60)}
+              id="hours"
+              placeholder="Hours"
+              type="number"
+              disabled={!inverted}
+              onChange={convert}
+            />
+          </div>
+          <button
+            onClick={() => {
+              setAmount(0);
+            }}
+          >
+            RESET
+          </button>
+
+          <button onClick={onFlip}>{inverted ? "Turn Back" : "Invert"}</button>
         </div>
       );
     };
