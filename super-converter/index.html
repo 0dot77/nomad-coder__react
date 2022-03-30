@@ -15,7 +15,6 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
     const root = document.querySelector("#root");
-
     function Selector() {
       const [index, setIndex] = React.useState("-1");
       return (
@@ -33,32 +32,68 @@
     }
 
     function MinutesToHour() {
-      const [value, setValue] = React.useState();
+      const [amount, setAmount] = React.useState(0);
+      const [invert, setInvert] = React.useState(false);
 
       return (
-        <form action="">
-          <label for="minutes">Minutes</label>
-          <input
-            type="text"
-            id="minutes"
-            onChange={(event) => {
-              console.log("hi");
-            }}
-          />
-          <label for="hour">Hour</label>
-          <input type="text" id="hour" />
-        </form>
+        <div>
+          <div>
+            <label htmlFor="minutes">Minutes</label>
+            <input
+              type="text"
+              id="minutes"
+              disabled={invert}
+              value={invert ? Math.trunc(amount * 60) : amount}
+              onChange={(event) => {
+                setAmount(event.target.value);
+              }}
+            />
+          </div>
+          <div>
+            <label htmlFor="hour">Hour</label>
+            <input
+              type="text"
+              id="hour"
+              value={invert ? amount : Math.trunc(amount / 60)}
+              disabled={!invert}
+              onChange={(event) => {
+                setAmount(event.target.value);
+              }}
+            />
+          </div>
+
+          <div>
+            <button
+              onClick={() => {
+                // set 함수에 파라미터는 React.useState()의 기본 값을 활용한다.
+                setInvert((current) => {
+                  return !current;
+                });
+              }}
+            >
+              Switch
+            </button>
+            <button
+              onClick={() => {
+                setAmount(0);
+                setInvert(false);
+              }}
+            >
+              Reset
+            </button>
+          </div>
+        </div>
       );
     }
 
     function App() {
+      // Selector 컴포넌트를 만들었다고 했을 때, 컴포넌트에 있는 값을 전역으로 사용하는 방법?
+      const [selectIndex, setSelectIndex] = React.useState();
       return (
         <div className="container">
           <h1 className="title">Super Converter</h1>
           <Selector />
-          <div>
-            <MinutesToHour />
-          </div>
+          console.log(selectIndex);
         </div>
       );
     }
