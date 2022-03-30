@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Super Converter</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const root = document.querySelector("#root");
+
+    function Selector() {
+      const [index, setIndex] = React.useState("-1");
+      return (
+        <select
+          value={index}
+          onChange={(event) => {
+            setIndex(event.target.value);
+          }}
+        >
+          <option value="-1">Select!</option>
+          <option value="0">Minutes To Hours</option>
+          <option value="1">Kilometers To Miles</option>
+        </select>
+      );
+    }
+
+    function MinutesToHour() {
+      const [value, setValue] = React.useState();
+
+      return (
+        <form action="">
+          <label for="minutes">Minutes</label>
+          <input
+            type="text"
+            id="minutes"
+            onChange={(event) => {
+              console.log("hi");
+            }}
+          />
+          <label for="hour">Hour</label>
+          <input type="text" id="hour" />
+        </form>
+      );
+    }
+
+    function App() {
+      return (
+        <div className="container">
+          <h1 className="title">Super Converter</h1>
+          <Selector />
+          <div>
+            <MinutesToHour />
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
