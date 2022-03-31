@@ -36,33 +36,91 @@
       const [invert, setInvert] = React.useState(false);
 
       return (
-        <div>
+        <div className="convert-items">
           <div>
-            <label htmlFor="minutes">Minutes</label>
-            <input
-              type="text"
-              id="minutes"
-              disabled={invert}
-              value={invert ? Math.trunc(amount * 60) : amount}
-              onChange={(event) => {
-                setAmount(event.target.value);
-              }}
-            />
+            <div className="convert-items__item">
+              <label htmlFor="minutes">Minutes</label>
+              <input
+                type="text"
+                id="minutes"
+                disabled={invert}
+                value={invert ? Math.trunc(amount * 60) : amount}
+                onChange={(event) => {
+                  setAmount(event.target.value);
+                }}
+              />
+            </div>
+            <div className="convert-items__item">
+              <label htmlFor="hour">Hour</label>
+              <input
+                type="text"
+                id="hour"
+                value={invert ? amount : Math.trunc(amount / 60)}
+                disabled={!invert}
+                onChange={(event) => {
+                  setAmount(event.target.value);
+                }}
+              />
+            </div>
           </div>
-          <div>
-            <label htmlFor="hour">Hour</label>
-            <input
-              type="text"
-              id="hour"
-              value={invert ? amount : Math.trunc(amount / 60)}
-              disabled={!invert}
-              onChange={(event) => {
-                setAmount(event.target.value);
+          <div className="btns">
+            <button
+              onClick={() => {
+                // set 함수에 파라미터는 React.useState()의 기본 값을 활용한다.
+                setInvert((current) => {
+                  return !current;
+                });
               }}
-            />
+            >
+              Switch
+            </button>
+            <button
+              onClick={() => {
+                setAmount(0);
+                setInvert(false);
+              }}
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    function KilometerToMiles() {
+      const [amount, setAmount] = React.useState(0);
+      const [invert, setInvert] = React.useState(false);
+
+      return (
+        <div className="convert-items">
+          <div>
+            <div className="convert-items__item">
+              <label htmlFor="kilometers">kilometers</label>
+              <input
+                type="text"
+                id="kilometers"
+                disabled={invert}
+                value={invert ? Math.round(amount / 0.6213712) : amount}
+                onChange={(event) => {
+                  setAmount(event.target.value);
+                }}
+              />
+            </div>
+            <div className="convert-items__item">
+              <label htmlFor="miles">Miles</label>
+              <input
+                type="text"
+                id="miles"
+                value={invert ? amount : Math.round(amount * 0.6213712)}
+                disabled={!invert}
+                onChange={(event) => {
+                  setAmount(event.target.value);
+                }}
+              />
+            </div>
           </div>
 
-          <div>
+          <div className="btns">
             <button
               onClick={() => {
                 // set 함수에 파라미터는 React.useState()의 기본 값을 활용한다.
@@ -88,12 +146,37 @@
 
     function App() {
       // Selector 컴포넌트를 만들었다고 했을 때, 컴포넌트에 있는 값을 전역으로 사용하는 방법?
-      const [selectIndex, setSelectIndex] = React.useState();
+      const [index, setIndex] = React.useState("-1");
       return (
         <div className="container">
-          <h1 className="title">Super Converter</h1>
-          <Selector />
-          console.log(selectIndex);
+          <div className="title-container">
+            <h1 className="title">Super Converter</h1>
+          </div>
+          <div className="select-container">
+            <div className="select-container__outer">
+              <select
+                className="select"
+                value={index}
+                onChange={(event) => {
+                  setIndex(event.target.value);
+                }}
+              >
+                <option className="select-items" value="-1">
+                  SELECT
+                </option>
+                <option className="select-items" value="0">
+                  Minutes To Hours
+                </option>
+                <option className="select-items" value="1">
+                  Kilometers To Miles
+                </option>
+              </select>
+            </div>
+            <div className="items-container">
+              {index === "0" ? <MinutesToHour /> : null}
+              {index === "1" ? <KilometerToMiles /> : null}
+            </div>
+          </div>
         </div>
       );
     }
