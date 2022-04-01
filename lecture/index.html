@@ -3,14 +3,8 @@
   <body>
     <div id="root"></div>
   </body>
-  <script
-    crossorigin
-    src="https://unpkg.com/react@17/umd/react.development.js"
-  ></script>
-  <script
-    crossorigin
-    src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
-  ></script>
+  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
     const root = document.getElementById("root");
@@ -23,7 +17,7 @@
       }
     }, 'Click me')
     */
-    const App = () => {
+    const MinutesToHours = () => {
       const [amount, setAmount] = React.useState();
       const [inverted, setInverted] = React.useState(false);
       const reset = () => setAmount(0);
@@ -35,7 +29,6 @@
 
       return (
         <div>
-          <h1>Super Converter</h1>
           <div>
             <label htmlFor="minutes">Minutes</label>
             <input
@@ -68,6 +61,31 @@
           </button>
 
           <button onClick={onFlip}>{inverted ? "Turn Back" : "Invert"}</button>
+        </div>
+      );
+    };
+
+    // 🏆
+
+    function KimToMiles() {
+      return <h3>KM 2 M</h3>;
+    }
+    const App = () => {
+      const [index, setIndex] = React.useState("-1");
+      const onSelect = (event) => {
+        setIndex(event.target.value);
+      };
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <select value={index} onChange={onSelect}>
+            <option value="-1">Select Your Unit</option>
+            <option value="0">Minutes & Hours</option>
+            <option value="1">Km & Miles</option>
+          </select>
+          <hr />
+          {index === "0" ? <MinutesToHours /> : null}
+          {index === "1" ? <KimToMiles /> : null}
         </div>
       );
     };
